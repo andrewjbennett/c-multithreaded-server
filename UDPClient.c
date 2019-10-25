@@ -124,6 +124,17 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // Prepare to exit -- send the Unsubscribe message to the server.
+    strcpy(buf, "Unsubscribe");
+    numbytes = sendto(sock_fd, buf, strlen(buf), 0,
+            (struct sockaddr *) &sockaddr_to, sizeof(sockaddr_to));
+
+    printf("Sent %d bytes to %s:%d\n", numbytes,
+            get_name(&sockaddr_to, name),
+            ntohs(sockaddr_to.sin_port));
+
+    close(sock_fd);
+
     return 0;
 }
 

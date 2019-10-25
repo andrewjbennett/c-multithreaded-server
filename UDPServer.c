@@ -181,10 +181,17 @@ int main(int argc, char *argv[]) {
     // to tell the server to shutdown, this code should happen at that
     // point.
 
+    // Close the sockets
+    close(server_fd);
+    close(client_fd);
+
+    // Clean up the threads.
     int retval;
     thrd_join(recv_thread, &retval);
     thrd_join(send_thread, &retval);
 
+    // Free the memory for the linked list of clients.
+    // This also frees the mutex and condition.
     list_destroy(list);
 
     return 0;
